@@ -4,7 +4,7 @@ datos requeridos se encuentran en el archivo data.csv. En este laboratorio
 solo puede utilizar las funciones y librerias basicas de python. No puede
 utilizar pandas, numpy o scipy.
 """
-
+import glob
 
 def pregunta_06():
     """
@@ -26,3 +26,28 @@ def pregunta_06():
      ('jjj', 5, 17)]
 
     """
+
+    input_folder = "files/input/"
+    file = glob.glob(f"{input_folder}*")
+    contador = {}
+
+    with open(file[0], "r", encoding="utf-8") as f:
+        for line in f:
+            data = line.split("\t")
+            diccionario = data[4].split(",")
+            for cadena in diccionario:
+                key, value = cadena.split(":")
+                if key not in contador:
+                    contador[key] = [int(value)]
+                else:
+                    contador[key].append(int(value))
+
+    rta = []
+    for key, value in contador.items():
+        rta.append((key, min(value), max(value)))
+    rta.sort()
+
+    return rta
+
+if __name__ == "__main__":
+    print(pregunta_06())
